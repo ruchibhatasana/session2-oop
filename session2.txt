@@ -1,0 +1,200 @@
+Q-1:-Create a class called Playlist with properties: name (string), createdOn 
+(date), and isPublic (boolean). Instantiate an object of Playlist and print 
+ all its properties.
+ 
+ANS:-
+#include <iostream>
+
+using namespace std;
+
+class Playlist
+{
+public:
+    string name;
+    string createdOn;
+    bool isPublic;
+};
+
+int main()
+{
+    Playlist p;
+
+    p.name = "My Songs";
+    p.createdOn = "19-09-2026";
+    p.isPublic = true;
+
+    cout << "Playlist Name: " << p.name << "\n";
+    cout << "Created On: " << p.createdOn << "\n";
+    cout << "Public: " << p.isPublic << "\n";
+
+}
+
+
+
+Q-2:-dd a member function to your Playlist class named togglePublic() that 
+ switches isPublic between true and false each time it is called. Demonstrate 
+ by toggling the value twice and printing the result each time.
+ 
+ANS:-
+#include <iostream>
+using namespace std;
+
+class Playlist
+{
+public:
+    string name;
+    string createdOn;
+    bool isPublic;
+
+    void togglePublic()
+    {
+        isPublic = !isPublic;
+    }
+};
+
+int main()
+{
+    Playlist p;
+
+    p.name = "My Songs";
+    p.createdOn = "19-09-2026";
+    p.isPublic = false;
+
+    cout << "Initial Public: " << p.isPublic << "\n";
+
+    p.togglePublic();
+    cout << "After First Toggle: " << p.isPublic << "\n";
+
+    p.togglePublic();
+    cout << "After Second Toggle: " << p.isPublic << "\n";
+
+}
+
+Q-3:-Create a class called FoodOrder with properties: orderId (number),
+ restaurantName (string), and isDelivered (boolean). Write a member function
+ markDelivered() that sets isDelivered to true and prints a message. 
+ Instantiate FoodOrder and call markDelivered().
+ 
+ANS:-
+#include <iostream>
+using namespace std;
+
+class FoodOrder
+{
+public:
+    int orderId;
+    string restaurantName;
+    bool isDelivered;
+
+    void markDelivered()
+    {
+        isDelivered = true;
+        cout << "Order Delivered Successfully!" << "\n";
+    }
+};
+
+int main()
+{
+    FoodOrder order;
+
+    order.orderId = 101;
+    order.restaurantName = "Pizza House";
+    order.isDelivered = false;
+
+    order.markDelivered();
+
+    cout << "Order ID: " << order.orderId << "\n";
+    cout << "Restaurant: " << order.restaurantName << "\n";
+    cout << "Delivered: " << order.isDelivered << "\n";
+
+}
+
+
+Q-4:-Extend your Playlist class to include a member function addSong(songTitle) 
+ that adds the song title to an array property called songs. Demonstrate by 
+ adding three song titles and displaying the updated songs list.<br><br><em>
+ <strong>Hint:</strong> Initialize songs as an empty array inside the 
+ constructor.</em>
+ 
+ANS:-
+#include <iostream>
+using namespace std;
+
+class Playlist
+{
+public:
+    string songs[10];
+    int count;
+
+    Playlist()
+    {
+        count = 0;
+    }
+
+    void addSong(string songTitle)
+    {
+        songs[count] = songTitle;
+        count++;
+    }
+};
+
+int main()
+{
+    Playlist p;
+
+    p.addSong("Kesariya");
+    p.addSong("Apna Bana Le");
+    p.addSong("Tum Hi Ho");
+
+    cout << "Songs List:\n";
+
+    for (int i = 0; i < p.count; i++)
+    {
+        cout << p.songs[i] << "\n";
+    }
+
+    
+}
+
+Q-5:-Refactor your FoodOrder class so that the constructor takes an object as 
+ a parameter (with keys orderId, restaurantName, isDelivered) instead of
+ separate arguments.Update your instantiation code to use this new constructor
+ signature.
+ 
+ANS:-
+#include <iostream>
+using namespace std;
+
+class FoodOrder
+{
+public:
+    int orderId;
+    string restaurantName;
+    bool isDelivered;
+
+    FoodOrder(FoodOrder &order)
+    {
+        orderId = order.orderId;
+        restaurantName = order.restaurantName;
+        isDelivered = order.isDelivered;
+    }
+
+    FoodOrder()
+    {
+        orderId = 101;
+        restaurantName = "Pizza House";
+        isDelivered = false;
+    }
+};
+
+int main()
+{
+    FoodOrder order1;
+
+    FoodOrder order2(order1);
+
+    cout << "Order ID: " << order2.orderId << "\n";
+    cout << "Restaurant: " << order2.restaurantName << "\n";
+    cout << "Delivered: " << order2.isDelivered << "\n";
+
+}
