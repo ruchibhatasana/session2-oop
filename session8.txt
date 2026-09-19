@@ -1,0 +1,348 @@
+T-1:-Create a Content class with properties: title, platform, views, and status. Write a 
+ method to display all details of a Content object.
+ans:-
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Content
+{
+public:
+    string title;
+    string platform;
+    int views;
+    string status;
+
+    void display()
+    {
+        cout << "\n--- Content Details ---";
+        cout << "Title: " << title;
+        cout << "Platform: " << platform;
+        cout << "Views: " << views;
+        cout << "Status: " << status;
+    }
+};
+
+int main()
+{
+    Content c;
+
+    cout << "Enter content title: ";
+    getline(cin, c.title);
+
+    cout << "Enter platform: ";
+    getline(cin, c.platform);
+
+    cout << "Enter views: ";
+    cin >> c.views;
+    cin.ignore();
+
+    cout << "Enter status: ";
+    getline(cin, c.status);
+
+    c.display();
+
+}
+
+T-2:-
+Build a console menu that lets users add new content ideas (title, platform, views, status)
+ and save each entry to a text file named content_list.txt.<br><br><em>
+ <strong>Hint:</strong> Use file handling to append each new content item to the file.</em>
+ans:-
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+int main()
+{
+    int choice;
+    string title, platform, status;
+    int views;
+
+    do
+    {
+        cout << "\n--- Creator Dashboard Lite ---";
+        cout << "1. Add New Content";
+        cout << "2. Exit";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        if (choice == 1)
+        {
+            cout << "Enter content title: ";
+            getline(cin, title);
+
+            cout << "Enter platform: ";
+            getline(cin, platform);
+
+            cout << "Enter views: ";
+            cin >> views;
+            cin.ignore();
+
+            cout << "Enter status: ";
+            getline(cin, status);
+
+            ofstream file("content_list.txt", ios::app);
+
+            file << "Title: " << title;
+            file << "Platform: " << platform;
+            file << "Views: " << views;
+            file << "Status: " << status;
+            file << "----------------------";
+
+            file.close();
+
+            cout << "Content saved successfully!";
+        }
+        else if (choice == 2)
+        {
+            cout << "Program ended.";
+        }
+        else
+        {
+            cout << "Invalid choice!";
+        }
+
+    } while (choice != 2);
+
+}
+
+
+
+T-3:-Implement a function to read all content items from content_list.txt and display
+ them in a numbered list, showing title and platform for each.
+ANS:-
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+void displayContent()
+{
+    ifstream file("content_list.txt");
+
+    string title, platform, views, status;
+    int number = 1;
+
+    cout << "\n--- Content List ---";
+
+    while (getline(file, title))
+    {
+        getline(file, platform);
+        getline(file, views);
+        getline(file, status);
+        getline(file, views);
+
+        cout << number << ". "
+             << title << " | "
+             << platform ;
+
+        number++;
+    }
+
+    file.close();
+}
+
+int main()
+{
+    displayContent();
+
+}
+
+
+
+T-4:-Add an option in your console app to let users update the status of any content idea by
+ selecting its number from the displayed list and saving the change back to the file.<br><br>
+ <em><strong>Hint:</strong> You will need to read all items, modify the selected one, and 
+ overwrite the file.</em>
+ 
+ANS:-#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+void updateStatus()
+{
+    ifstream file("content_list.txt");
+
+    string title[100];
+    string platform[100];
+    string views[100];
+    string status[100];
+
+    int count = 0;
+
+    while (getline(file, title[count]))
+    {
+        getline(file, platform[count]);
+        getline(file, views[count]);
+        getline(file, status[count]);
+
+        string separator;
+        getline(file, separator);
+
+        count++;
+    }
+
+    file.close();
+
+    cout << "\n--- Content List ---";
+
+    for (int i = 0; i < count; i++)
+    {
+        cout << i + 1 << ". "
+             << title[i] << " | "
+             << platform[i]
+             << " | " << status[i];
+    }
+
+    int choice;
+
+    cout << "\nEnter content number to update: ";
+    cin >> choice;
+    cin.ignore();
+
+    if (choice >= 1 && choice <= count)
+    {
+        cout << "Enter new status: ";
+        getline(cin, status[choice - 1]);
+
+        ofstream outFile("content_list.txt");
+
+        for (int i = 0; i < count; i++)
+        {
+            outFile << title[i];
+            outFile << platform[i];
+            outFile << views[i];
+            outFile << status[i];
+            outFile << "----------------------";
+        }
+
+        outFile.close();
+
+        cout << "Status updated successfully!";
+    }
+    else
+    {
+        cout << "Invalid content number!";
+    }
+}
+
+int main()
+{
+    updateStatus();
+
+}
+
+
+
+T-5:-Add a feature to delete a content item by its number from the list,
+ update the file accordingly, and display the updated list to confirm deletion.
+ANS:-
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+void displayContent()
+{
+    ifstream file("content_list.txt");
+
+    string title, platform, views, status;
+    int number = 1;
+
+    cout << "\n--- Content List ---";
+
+    while (getline(file, title))
+    {
+        getline(file, platform);
+        getline(file, views);
+        getline(file, status);
+
+        string separator;
+        getline(file, separator);
+
+        cout << number << ". "
+             << title << " | "
+             << platform << " | "
+             << status;
+
+        number++;
+    }
+
+    file.close();
+}
+
+void deleteContent()
+{
+    ifstream file("content_list.txt");
+
+    string title[100];
+    string platform[100];
+    string views[100];
+    string status[100];
+
+    int count = 0;
+
+    while (getline(file, title[count]))
+    {
+        getline(file, platform[count]);
+        getline(file, views[count]);
+        getline(file, status[count]);
+
+        string separator;
+        getline(file, separator);
+
+        count++;
+    }
+
+    file.close();
+
+    cout << "\n--- Content List ---";
+
+    for (int i = 0; i < count; i++)
+    {
+        cout << i + 1 << ". "
+             << title[i] << " | "
+             << platform[i] << " | "
+             << status[i];
+    }
+
+    int choice;
+
+    cout << "\nEnter content number to delete: ";
+    cin >> choice;
+
+    if (choice < 1 || choice > count)
+    {
+        cout << "Invalid content number!";
+        return;
+    }
+    ofstream outFile("content_list.txt");
+
+    for (int i = 0; i < count; i++)
+    {
+        if (i != choice - 1)
+        {
+            outFile << title[i];
+            outFile << platform[i];
+            outFile << views[i];
+            outFile << status[i];
+            outFile << "----------------------";
+        }
+    }
+
+    outFile.close();
+
+    cout << "\nContent deleted successfully!";
+
+    displayContent();
+}
+
+int main()
+{
+    deleteContent();
+
+}
